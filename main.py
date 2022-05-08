@@ -61,3 +61,14 @@ else:
         st.write('Waiting fot the user to upload CSV file. Currently using example input parameters')
         st.write(df)
 
+    load_clf = pickle.load(open('penguins_clf.pkl', 'rb'))
+
+    prediction = load_clf.predict(df)
+    prediction_probability = load_clf.predict_proba(df)
+
+    st.subheader("Prediction")
+    penguins_species = np.array(['Adelie', 'Chinstrap', 'Gentoo'])
+    st.write(penguins_species[prediction])
+
+    st.subheader('Prediction Probability')
+    st.write(prediction_probability)
