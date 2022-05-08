@@ -41,3 +41,23 @@ else:
         return features
 
     input_df = user_input_features()
+
+    penguins_raw = pd.read_csv('penguins.csv')
+    penguins = penguins_raw.drop(columns=['species'])
+    df = pd.concat([input_df, penguins], axis=0)
+
+    encode = ['sex', 'island']
+    for col in encode:
+        dummy = pd.get_dummies(df[col], prefix=col)
+        df = pd.concat([df, dummy], axis=1)
+        del df[col]
+    df = df[:1]  # Selects only first row (the user input data)
+
+    st.subheader('User Input features')
+
+    if uploaded_file is not None:
+        st.write(df)
+    else:
+        st.write('Waiting fot the user to upload CSV file. Currently using example input parameters')
+        st.write(df)
+
