@@ -16,7 +16,7 @@ st.sidebar.markdown("""
 [Dataset used can be found here](https://github.com/Aftaab25/Penguins-Species-Prediction/blob/master/penguins_cleaned.csv)
 """)
 
-uploaded_file = st.sidebar.file_uploader("Upload y input csv file", type=["csv"])
+uploaded_file = st.sidebar.file_uploader("Upload your input csv file", type=["csv"])
 if uploaded_file is not None:
     input_df = pd.read_csv(uploaded_file)
 else:
@@ -42,33 +42,33 @@ else:
 
     input_df = user_input_features()
 
-    penguins_raw = pd.read_csv('penguins.csv')
-    penguins = penguins_raw.drop(columns=['species'])
-    df = pd.concat([input_df, penguins], axis=0)
+penguins_raw = pd.read_csv('penguins.csv')
+penguins = penguins_raw.drop(columns=['species'], axis=1)
+df = pd.concat([input_df, penguins], axis=0)
 
-    encode = ['sex', 'island']
-    for col in encode:
-        dummy = pd.get_dummies(df[col], prefix=col)
-        df = pd.concat([df, dummy], axis=1)
-        del df[col]
-    df = df[:1]  # Selects only first row (the user input data)
+encode = ['sex', 'island']
+for col in encode:
+    dummy = pd.get_dummies(df[col], prefix=col)
+    df = pd.concat([df, dummy], axis=1)
+    del df[col]
+df = df[:1]  # Selects only first row (the user input data)
 
-    st.subheader('User Input features')
+st.subheader('User Input features')
 
-    if uploaded_file is not None:
-        st.write(df)
-    else:
-        st.write('Waiting fot the user to upload CSV file. Currently using example input parameters')
-        st.write(df)
+if uploaded_file is not None:
+    st.write(df)
+else:
+    st.write('Waiting fot the user to upload CSV file. Currently using example input parameters')
+    st.write(df)
 
-    load_clf = pickle.load(open('penguins_clf.pkl', 'rb'))
+load_clf = pickle.load(open('penguins_clf.pkl', 'rb'))
 
-    prediction = load_clf.predict(df)
-    prediction_probability = load_clf.predict_proba(df)
+prediction = load_clf.predict(df)
+prediction_probability = load_clf.predict_proba(df)
 
-    st.subheader("Prediction")
-    penguins_species = np.array(['Adelie', 'Chinstrap', 'Gentoo'])
-    st.write(penguins_species[prediction])
+st.subheader("Prediction")
+penguins_species = np.array(['Adelie', 'Chinstrap', 'Gentoo'])
+st.write(penguins_species[prediction])
 
-    st.subheader('Prediction Probability')
-    st.write(prediction_probability)
+st.subheader('Prediction Probability')
+st.write(prediction_probability)
