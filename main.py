@@ -13,7 +13,7 @@ This app predicts the **Palmer Penguin** species!
 st.sidebar.header('User Input Features')
 
 st.sidebar.markdown("""
-[Dataset used can be found here](https://github.com/Aftaab25/Penguins-Species-Prediction/blob/master/penguins_cleaned.csv)
+[Dataset used can be found here](https://github.com/Aftaab25/Penguins-Species-Prediction/blob/master/penguins.csv)
 """)
 
 uploaded_file = st.sidebar.file_uploader("Upload your input csv file", type=["csv"])
